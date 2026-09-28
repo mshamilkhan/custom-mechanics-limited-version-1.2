@@ -19,31 +19,21 @@ jobs:
           node-version: 20
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build Project
         run: npm run build
 
-      - name: Sync files via FTP
+      - name: Verify Build
+        run: ls -la dist/
+
+      - name: Deploy to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: 77.37.34.104
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21
+          protocol: ftp
           local-dir: ./dist/
-          server-dir: ./
-          dangerous-clean-slate: true
-          
-      - name: Check FTP directory
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y lftp
-          lftp -c "
-            set ssl:verify-certificate no
-            open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ftp://77.37.34.104
-            pwd
-            ls -la
-            ls -la public_html
-            bye
-          "
+          server-dir: ./domains/custommechanicsltd.com/public_html/
