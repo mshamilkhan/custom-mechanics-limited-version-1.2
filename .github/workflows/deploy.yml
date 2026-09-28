@@ -34,3 +34,16 @@ jobs:
           local-dir: ./dist/
           server-dir: ./
           dangerous-clean-slate: true
+          
+      - name: Check FTP directory
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y lftp
+          lftp -c "
+            set ssl:verify-certificate no
+            open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ftp://77.37.34.104
+            pwd
+            ls -la
+            ls -la public_html
+            bye
+          "
