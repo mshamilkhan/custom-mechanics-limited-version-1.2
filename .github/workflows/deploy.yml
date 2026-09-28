@@ -37,3 +37,14 @@ jobs:
           protocol: ftp
           local-dir: ./dist/
           server-dir: ./domains/custommechanicsltd.com/public_html/
+          
+      - name: Location
+             lftp -c "
+              open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ftp://77.37.34.104
+              cd domains/custommechanicsltd.com/public_html
+              pwd
+              ls -la
+              bye
+              "
+
+      
