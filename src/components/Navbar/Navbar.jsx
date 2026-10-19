@@ -17,6 +17,10 @@ const mainLinks = [
     label: "Accessories",
     path: "/accessories",
   },
+  {
+    label: "Blogs",
+    path: "/blogs",}
+
 ];
 
 const serviceLinks = [
