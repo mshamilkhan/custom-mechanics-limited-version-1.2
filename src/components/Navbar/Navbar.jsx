@@ -19,8 +19,9 @@ const mainLinks = [
   },
   {
     label: "Blogs",
-    path: "/blogs",}
-
+    path: "/blogs",
+    external: true, // Marks this as a physical server folder (WordPress)
+  },
 ];
 
 const serviceLinks = [
@@ -73,7 +74,6 @@ function HamburgerIcon({ open }) {
           transition: "transform 0.3s ease",
         }}
       />
-
       <path
         d="M4 12H20"
         stroke="white"
@@ -85,7 +85,6 @@ function HamburgerIcon({ open }) {
           transition: "opacity 0.2s ease",
         }}
       />
-
       <path
         d="M4 18H20"
         stroke="white"
@@ -118,16 +117,27 @@ function NavLinks({
           : "nav-links-desktop"
       }`}
     >
-      {mainLinks.map((link) => (
-        <Link
-          key={link.path}
-          to={link.path}
-          className="nav-link"
-          onClick={closeMenus}
-        >
-          {link.label}
-        </Link>
-      ))}
+      {mainLinks.map((link) =>
+        link.external ? (
+          <a
+            key={link.path}
+            href={link.path}
+            className="nav-link"
+            onClick={closeMenus}
+          >
+            {link.label}
+          </a>
+        ) : (
+          <Link
+            key={link.path}
+            to={link.path}
+            className="nav-link"
+            onClick={closeMenus}
+          >
+            {link.label}
+          </Link>
+        )
+      )}
 
       <div className="services-container">
         <button
@@ -140,7 +150,6 @@ function NavLinks({
           }}
         >
           Services
-
           <span
             className={`chevron-wrapper ${
               mobile && servicesOpen
